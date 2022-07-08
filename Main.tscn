@@ -77,4 +77,3 @@ position = Vector2( 62, 24 )
 script = ExtResource( 8 )
 
 [connection signal="timeout" from="Timer" to="ActiveFigure" method="_on_Timer_timeout"]
-[connection signal="collision" from="ActiveFigure" to="GameBoard" method="_on_ActiveFigure_collision"]

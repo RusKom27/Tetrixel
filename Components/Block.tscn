@@ -4,7 +4,7 @@
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 16, 16, 16 )
+region = Rect2( 16, 0, 16, 16 )
 
 [node name="Block" type="Node2D"]
 position = Vector2( 144, 304 )
