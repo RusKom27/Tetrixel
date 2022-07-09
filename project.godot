@@ -8,11 +8,31 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Block",
+"language": "GDScript",
+"path": "res://Scripts/Block.gd"
+}, {
+"base": "Node2D",
+"class": "Matrix",
+"language": "GDScript",
+"path": "res://Scripts/Matrix.gd"
+} ]
+_global_script_class_icons={
+"Block": "",
+"Matrix": ""
+}
+
 [application]
 
 config/name="Tetris"
 run/main_scene="res://Main.tscn"
 config/icon="res://Sprites/icon.png"
+
+[debug]
+
+settings/fps/force_fps=60
 
 [display]
 
