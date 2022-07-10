@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Particles.gd" type="Script" id=1]
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0, 0.502762, 1 )
+colors = PoolColorArray( 0.396078, 0.403922, 0.619608, 1, 0.827451, 0.827451, 0.827451, 1, 1, 0.968627, 0.937255, 1 )
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+position = Vector2( 8, 8 )
+rotation = 1.5708
+z_index = 100
+emitting = false
+amount = 12
+lifetime = 0.2
+one_shot = true
+speed_scale = 4.0
+explosiveness = 1.0
+fract_delta = false
+local_coords = false
+draw_order = 1
+emission_shape = 2
+emission_rect_extents = Vector2( 8, 8 )
+spread = 31.38
+gravity = Vector2( 0, 30 )
+initial_velocity = 45.87
+initial_velocity_random = 1.0
+color_ramp = SubResource( 4 )
+script = ExtResource( 1 )

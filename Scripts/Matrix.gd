@@ -12,6 +12,7 @@ var matrix = []
 func create_matrix(_width, _heigth):
 	width = _width
 	height = _heigth
+	matrix = []
 	for y in range(height):
 		matrix.append([])
 		for _x in range(width):
@@ -23,14 +24,14 @@ func clear_matrix():
 			matrix[y][x] = null
 	
 func matrix_sweep():
-	var sweeped_rows = 0
+	var sweeped_rows = []
 	for y in range(len(matrix)):
 		var line_detected = true
 		for x in range(len(matrix[y])):
 			if matrix[y][x] == null:
 				line_detected = false
 		if line_detected:
-			sweeped_rows += 1
+			sweeped_rows.append(y)
 			clear_row(y)
 	return sweeped_rows
 	
@@ -97,8 +98,6 @@ func rotate_matrix(entity, another_entity, dir):
 			return
 
 func rotate(dir):
-	print_matrix()
-	print(len(matrix), len(matrix[0]))
 	var N = len(matrix[0])
 	if dir < 0:
 		for row in matrix:
@@ -128,7 +127,7 @@ func merge(entity, another_entity):
 				var block = block_resource.instance()
 				block.copy(matrix[y][x])
 				another_matrix[y + pos_in_matrix.y][x + pos_in_matrix.x] = block
-				block.animate_creation()
+				another_matrix[y + pos_in_matrix.y][x + pos_in_matrix.x].animate_creation()
 				block_placed = true
 	return block_placed
 				

@@ -16,6 +16,7 @@ func copy(block):
 	set_texture(block.type, block.modulate)
 
 func animate_creation():
+	$CPUParticles2D.start_emitting()
 	$AnimationPlayer.play("created")
 
 func set_texture(_type, color = Color(1,1,1,1)):

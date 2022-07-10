@@ -2,6 +2,7 @@ extends Node2D
 
 signal block_placed
 signal blocks_sweeped
+signal reset
 
 onready var game_board = get_parent().get_node("GameBoard")
 onready var next_figure_board = get_parent().get_node("NextFigureBoard")
@@ -42,7 +43,7 @@ func drop_down():
 		if Matrix.merge(self, game_board):
 			emit_signal("block_placed")
 		var sweeped_rows = game_board.Matrix.matrix_sweep()
-		if sweeped_rows > 0:
+		if len(sweeped_rows) > 0:
 			emit_signal("blocks_sweeped", sweeped_rows)
 		game_board.draw_matrix()
 		reset()
@@ -52,6 +53,7 @@ func reset():
 	if Matrix.collide(self, game_board):
 		game_board.Matrix.clear_matrix()
 		game_board.draw_matrix()
+		emit_signal("reset")
 
 func change_figure():
 	var figure
@@ -60,14 +62,15 @@ func change_figure():
 	else:
 		figure = next_figure_board.Matrix.matrix
 	var next_figure = create_figure()
-	next_figure_board.Matrix.matrix = next_figure
 	next_figure_board.Matrix.create_matrix(len(next_figure), len(next_figure[0]))
+	next_figure_board.Matrix.matrix = next_figure
+	
 	next_figure_board.draw_matrix()
 	
 	Matrix.create_matrix(len(figure), len(figure[0]))
 	Matrix.matrix = figure
-	draw_matrix()
 	position = Vector2(game_board.position.x + Matrix.cell_size*4, game_board.position.y)
+	draw_matrix()
 
 func draw_matrix():
 	for n in get_children():

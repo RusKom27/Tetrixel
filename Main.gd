@@ -1,15 +1,58 @@
 extends Node2D
 
+var particle_resource = load("res://Components/Particles.tscn")
+
+onready var ui_scores_value = $CanvasLayer/Control/Scores/Value
+onready var ui_lines_value = $CanvasLayer/Control/Lines/Value
+onready var ui_level_value = $CanvasLayer/Control/Level/Value
+
+var scores = 0
+var lines = 0
+var level = 0
 
 func _ready():
+	seed(100)
 	randomize()
 	$Timer.start()
 
 
 func _on_ActiveFigure_block_placed():
 	$AnimationPlayer.play("block_placed")
-
-
+	
 func _on_ActiveFigure_blocks_sweeped(sweeped_rows):
-	print("sweeped" + str(sweeped_rows))
-	$AnimationPlayer.play("sweeped" + str(sweeped_rows))
+	update_stats(sweeped_rows)
+	
+	for row in sweeped_rows:
+		for x in range(len($GameBoard.Matrix.matrix[0])):
+			var cell_size = $GameBoard.Matrix.cell_size
+			var particle = particle_resource.instance()
+			particle.start_emitting()
+			particle.position = $GameBoard.position + Vector2(x*cell_size, row*cell_size)
+			add_child(particle)
+			
+	$AnimationPlayer.play("sweeped" + str(len(sweeped_rows)))
+
+func _on_ActiveFigure_reset():
+	update_stats()
+
+func update_stats(sweeped_rows = []):
+	if len(sweeped_rows) < 1:
+		scores = 0
+		lines = 0
+		level = 0
+	else:
+		scores += int(50 * len(sweeped_rows))
+		lines += int(len(sweeped_rows))
+		level += int(scores/500)
+	
+	set_ui_value(ui_scores_value, str(scores))
+	set_ui_value(ui_lines_value, str(lines))
+	set_ui_value(ui_level_value, str(level))
+	
+func set_ui_value(ui_component, value):
+	var ui_value = "" 
+	for i in range(clamp(len(ui_component.text) - len(value), 0, 6)):
+		ui_value += "0"
+	ui_component.text = ui_value + value
+	
+	
