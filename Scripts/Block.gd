@@ -9,10 +9,14 @@ var textures = [
 	load("res://Sprites/texture_type4.tres"),
 ]
 
+
 var type = 0
 	
 func copy(block):
 	set_texture(block.type, block.modulate)
+
+func animate_creation():
+	$AnimationPlayer.play("created")
 
 func set_texture(_type, color = Color(1,1,1,1)):
 	type = _type
@@ -21,4 +25,5 @@ func set_texture(_type, color = Color(1,1,1,1)):
 
 func delete():
 	$AnimationPlayer.play("fade_out")
+	
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Sprites/background.png" type="Texture" id=1]
 [ext_resource path="res://Fonts/Font.tres" type="DynamicFont" id=2]
@@ -21,6 +21,110 @@ region = Rect2( 271, 41, 64, 16 )
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 3 )
 region = Rect2( 271, 25, 64, 16 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "block_placed"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Camera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 0.25, 0.0114382, 0.112656, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -3 ), Vector2( 0, 3 ), Vector2( 0, -1 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "sweeped1"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Camera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 0.03983, 0.0824693, 0.0796602, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( -1, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "sweeped2"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Camera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 0.03983, 0.0824693, 0.0796602, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 2, 0 ), Vector2( -2, 0 ), Vector2( 2, 0 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "sweeped3"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Camera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 0.03983, 0.0824693, 0.0796602, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 3, -1 ), Vector2( -3, 1 ), Vector2( 3, -1 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Background:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 0.00929067, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.407843, 0.407843, 0.407843, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "sweeped4"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Camera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 0.03983, 0.0824693, 0.0796602, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 4, 1 ), Vector2( -4, -2 ), Vector2( 4, 3 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Background:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 0.00124469, 1, 0.00328475, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.278431, 0.278431, 0.278431, 1 ), Color( 1, 1, 1, 1 ), Color( 0.447059, 0.447059, 0.447059, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 9 )
@@ -81,4 +185,13 @@ script = ExtResource( 8 )
 texture = ExtResource( 7 )
 centered = false
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/block_placed = SubResource( 4 )
+anims/sweeped1 = SubResource( 5 )
+anims/sweeped2 = SubResource( 6 )
+anims/sweeped3 = SubResource( 7 )
+anims/sweeped4 = SubResource( 8 )
+
 [connection signal="timeout" from="Timer" to="ActiveFigure" method="_on_Timer_timeout"]
+[connection signal="block_placed" from="ActiveFigure" to="." method="_on_ActiveFigure_block_placed"]
+[connection signal="blocks_sweeped" from="ActiveFigure" to="." method="_on_ActiveFigure_blocks_sweeped"]

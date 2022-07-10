@@ -23,16 +23,20 @@ func clear_matrix():
 			matrix[y][x] = null
 	
 func matrix_sweep():
+	var sweeped_rows = 0
 	for y in range(len(matrix)):
 		var line_detected = true
 		for x in range(len(matrix[y])):
 			if matrix[y][x] == null:
 				line_detected = false
 		if line_detected:
+			sweeped_rows += 1
 			clear_row(y)
+	return sweeped_rows
 	
 func clear_row(row):
 	for x in range(len(matrix[row])):
+		matrix[row][x].delete()
 		matrix[row][x] = null
 
 	var rows = range(row)
@@ -93,6 +97,8 @@ func rotate_matrix(entity, another_entity, dir):
 			return
 
 func rotate(dir):
+	print_matrix()
+	print(len(matrix), len(matrix[0]))
 	var N = len(matrix[0])
 	if dir < 0:
 		for row in matrix:
@@ -110,6 +116,7 @@ func rotate(dir):
 			matrix[i][N-j-1] = temp
 	
 func merge(entity, another_entity):
+	var block_placed = false
 	var pos_in_matrix = to_matrix_pos(entity)
 	var another_matrix = another_entity.Matrix.matrix
 	for y in range(len(matrix)):
@@ -118,10 +125,13 @@ func merge(entity, another_entity):
 			 y + pos_in_matrix.y < len(another_matrix) and \
 			 x + pos_in_matrix.x < len(another_matrix[0]) and \
 			 x + pos_in_matrix.x > -1:
-				print(x)
 				var block = block_resource.instance()
 				block.copy(matrix[y][x])
 				another_matrix[y + pos_in_matrix.y][x + pos_in_matrix.x] = block
+				block.animate_creation()
+				block_placed = true
+	return block_placed
+				
 				
 func to_matrix_pos(entity):
 	return Vector2(entity.global_position.x / cell_size, \

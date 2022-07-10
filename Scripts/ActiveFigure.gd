@@ -1,6 +1,10 @@
 extends Node2D
 
+signal block_placed
+signal blocks_sweeped
+
 onready var game_board = get_parent().get_node("GameBoard")
+onready var next_figure_board = get_parent().get_node("NextFigureBoard")
 
 var matrix_resource = load("res://Scripts/Matrix.gd")
 var block_resource = load("res://Components/Block.tscn")
@@ -35,8 +39,11 @@ func drop_down():
 	position.y += Matrix.cell_size
 	if Matrix.collide(self, game_board):
 		position.y -= Matrix.cell_size
-		Matrix.merge(self, game_board)
-		game_board.Matrix.matrix_sweep()
+		if Matrix.merge(self, game_board):
+			emit_signal("block_placed")
+		var sweeped_rows = game_board.Matrix.matrix_sweep()
+		if sweeped_rows > 0:
+			emit_signal("blocks_sweeped", sweeped_rows)
 		game_board.draw_matrix()
 		reset()
 
@@ -47,20 +54,16 @@ func reset():
 		game_board.draw_matrix()
 
 func change_figure():
-	randomize()
-	var types = "ILJOTSZ"
-	var figure = get_figure(types[randi()%len(types)])
-#	var color = Color(float(randi()%100)/100 + 0.4, \
-#		float(randi()%100)/100 + 0.5, \
-#		float(randi()%100)/100 + 0.4, 1)
-	var texture_type = randi()%4
-	for y in range(len(figure)):
-		for x in range(len(figure[y])):
-			if figure[y][x] != null:
-				var block = block_resource.instance()
-				block.position = Vector2(x * Matrix.cell_size, y * Matrix.cell_size)
-				block.set_texture(texture_type)
-				figure[y][x] = block
+	var figure
+	if next_figure_board.Matrix.matrix == []:
+		figure = create_figure()
+	else:
+		figure = next_figure_board.Matrix.matrix
+	var next_figure = create_figure()
+	next_figure_board.Matrix.matrix = next_figure
+	next_figure_board.Matrix.create_matrix(len(next_figure), len(next_figure[0]))
+	next_figure_board.draw_matrix()
+	
 	Matrix.create_matrix(len(figure), len(figure[0]))
 	Matrix.matrix = figure
 	draw_matrix()
@@ -75,49 +78,66 @@ func draw_matrix():
 				Matrix.matrix[y][x].position = Vector2(x * Matrix.cell_size, y * Matrix.cell_size)
 				add_child(Matrix.matrix[y][x])
 
-func get_figure(type):
-	if type == 'I':
-		return [
-			[null, 1, null, null],
-			[null, 1, null, null],
-			[null, 1, null, null],
-			[null, 1, null, null],
-		]
-	elif type == 'L':
-		return [
-			[null, 2, null],
-			[null, 2, null],
-			[null, 2, 2],
-		]
-	elif type == 'J':
-		return [
-			[null, 3, null],
-			[null, 3, null],
-			[3, 3, null],
-		]
-	elif type == 'O':
-		return [
-			[4, 4],
-			[4, 4],
-		]
-	elif type == 'Z':
-		return [
-			[5, 5, null],
-			[null, 5, 5],
-			[null, null, null],
-		]
-	elif type == 'S':
-		return [
-			[null, 6, 6],
-			[6, 6, null],
-			[null, null, null],
-		]
-	elif type == 'T':
-		return [
-			[null, 7, null],
-			[7, 7, 7],
-			[null, null, null],
-		]
+func create_figure():
+	var types = "ILJOTSZ"
+	var figure_type = get_figure_type(types[randi()%len(types)])
+#	var color = Color(float(randi()%100)/100 + 0.4, \
+#		float(randi()%100)/100 + 0.5, \
+#		float(randi()%100)/100 + 0.4, 1)
+	var texture_type = randi()%4
+	for y in range(len(figure_type)):
+		for x in range(len(figure_type[y])):
+			if figure_type[y][x] != null:
+				var block = block_resource.instance()
+				block.position = Vector2(x * Matrix.cell_size, y * Matrix.cell_size)
+				block.set_texture(texture_type)
+				figure_type[y][x] = block
+	return figure_type
+
+func get_figure_type(type):
+	match type:
+		'I':
+			return [
+				[null, 1, null, null],
+				[null, 1, null, null],
+				[null, 1, null, null],
+				[null, 1, null, null],
+			]
+		'L':
+			return [
+				[null, 2, null],
+				[null, 2, null],
+				[null, 2, 2],
+			]
+		'J':
+			return [
+				[null, 3, null],
+				[null, 3, null],
+				[3, 3, null],
+			]
+		'O':
+			return [
+				[4, 4],
+				[4, 4],
+			]
+		'Z':
+			return [
+				[5, 5, null],
+				[null, 5, 5],
+				[null, null, null],
+			]
+		'S':
+			return [
+				[null, 6, 6],
+				[6, 6, null],
+				[null, null, null],
+			]
+		'T':
+			return [
+				[null, 7, null],
+				[7, 7, 7],
+				[null, null, null],
+			]
 
 func _on_Timer_timeout():
 	drop_down()
