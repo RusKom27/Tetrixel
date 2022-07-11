@@ -6,6 +6,7 @@ signal reset
 
 onready var game_board = get_parent().get_node("GameBoard")
 onready var next_figure_board = get_parent().get_node("NextFigureBoard")
+onready var timer = get_parent().get_node("Timer")
 
 var matrix_resource = load("res://Scripts/Matrix.gd")
 var block_resource = load("res://Components/Block.tscn")
@@ -18,18 +19,19 @@ func _ready():
 	
 
 func _input(event):
-	if event.is_action_pressed("ui_left"):
-		figure_move(-Matrix.cell_size)
-	if event.is_action_pressed("ui_right"):
-		figure_move(Matrix.cell_size)
-	if event.is_action("ui_down"):
-		drop_down()
-	if event.is_action_pressed("ui_rotate_left"):
-		Matrix.rotate_matrix(self, game_board, -1)
-		draw_matrix()
-	if event.is_action_pressed("ui_rotate_right"):
-		Matrix.rotate_matrix(self, game_board, 1)
-		draw_matrix()
+	if !timer.paused:
+		if event.is_action_pressed("ui_left"):
+			figure_move(-Matrix.cell_size)
+		if event.is_action_pressed("ui_right"):
+			figure_move(Matrix.cell_size)
+		if event.is_action("ui_down"):
+			drop_down()
+		if event.is_action_pressed("ui_rotate_left"):
+			Matrix.rotate_matrix(self, game_board, -1)
+			draw_matrix()
+		if event.is_action_pressed("ui_rotate_right"):
+			Matrix.rotate_matrix(self, game_board, 1)
+			draw_matrix()
 
 func figure_move(dir):
 	position.x += dir
@@ -51,9 +53,11 @@ func drop_down():
 func reset():
 	change_figure()
 	if Matrix.collide(self, game_board):
+		emit_signal("reset")
+		change_figure()
+		change_figure()
 		game_board.Matrix.clear_matrix()
 		game_board.draw_matrix()
-		emit_signal("reset")
 
 func change_figure():
 	var figure
@@ -83,17 +87,17 @@ func draw_matrix():
 
 func create_figure():
 	var types = "ILJOTSZ"
-	var figure_type = get_figure_type(types[randi()%len(types)])
-#	var color = Color(float(randi()%100)/100 + 0.4, \
-#		float(randi()%100)/100 + 0.5, \
-#		float(randi()%100)/100 + 0.4, 1)
-	var texture_type = randi()%4
+	var random_num
+	for _i in range(5):
+		random_num = randi()%len(types)
+	var figure_type = get_figure_type(types[random_num])
+	var texture_type = random_num%4
 	for y in range(len(figure_type)):
 		for x in range(len(figure_type[y])):
 			if figure_type[y][x] != null:
 				var block = block_resource.instance()
 				block.position = Vector2(x * Matrix.cell_size, y * Matrix.cell_size)
-				block.set_texture(texture_type)
+				block.set_texture(texture_type, get_parent().level_color)
 				figure_type[y][x] = block
 	return figure_type
 

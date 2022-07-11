@@ -1,25 +1,82 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Sprites/background.png" type="Texture" id=1]
 [ext_resource path="res://Fonts/Font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://Sprites/buttons.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/pause_buttons.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/NextFigureBoard.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/GameBoard.gd" type="Script" id=6]
 [ext_resource path="res://Sprites/foreground.png" type="Texture" id=7]
 [ext_resource path="res://Scripts/ActiveFigure.gd" type="Script" id=8]
 [ext_resource path="res://Main.gd" type="Script" id=9]
+[ext_resource path="res://Sprites/menu_buttons.png" type="Texture" id=10]
 
 [sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 3 )
-region = Rect2( 271, 9, 64, 16 )
+atlas = ExtResource( 10 )
+region = Rect2( 270, 8, 64, 16 )
 
 [sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 3 )
-region = Rect2( 271, 41, 64, 16 )
+atlas = ExtResource( 10 )
+region = Rect2( 270, 40, 64, 16 )
 
 [sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 10 )
+region = Rect2( 270, 24, 64, 16 )
+
+[sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 3 )
-region = Rect2( 271, 25, 64, 16 )
+region = Rect2( 110, 8, 64, 16 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 3 )
+region = Rect2( 110, 40, 64, 16 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 3 )
+region = Rect2( 110, 24, 64, 16 )
+
+[sub_resource type="Animation" id=9]
+resource_name = "level_changed"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/Level:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 2, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "scores&lines_changed"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/Scores:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 2, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Control/Lines:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 2, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "block_placed"
@@ -84,18 +141,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 3, -1 ), Vector2( -3, 1 ), Vector2( 3, -1 ), Vector2( 0, 0 ) ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("Background:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 0.00929067, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0.407843, 0.407843, 0.407843, 1 ), Color( 1, 1, 1, 1 ) ]
-}
 
 [sub_resource type="Animation" id=8]
 resource_name = "sweeped4"
@@ -112,26 +157,12 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 4, 1 ), Vector2( -4, -2 ), Vector2( 4, 3 ), Vector2( 0, 0 ) ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("Background:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
-"transitions": PoolRealArray( 1, 0.00124469, 1, 0.00328475, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0.278431, 0.278431, 0.278431, 1 ), Color( 1, 1, 1, 1 ), Color( 0.447059, 0.447059, 0.447059, 1 ), Color( 1, 1, 1, 1 ) ]
-}
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 9 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
-
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -144,6 +175,7 @@ centered = false
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 offset = Vector2( 0, -1 )
 transform = Transform2D( 1, 0, 0, 1, 0, -1 )
+follow_viewport_enable = true
 
 [node name="Control" type="Control" parent="CanvasLayer"]
 margin_right = 360.0
@@ -158,6 +190,25 @@ texture_normal = SubResource( 1 )
 texture_pressed = SubResource( 2 )
 texture_hover = SubResource( 3 )
 
+[node name="PauseButton" type="TextureButton" parent="CanvasLayer/Control"]
+margin_left = 271.0
+margin_top = 297.0
+margin_right = 335.0
+margin_bottom = 312.0
+texture_normal = SubResource( 11 )
+texture_pressed = SubResource( 12 )
+texture_hover = SubResource( 13 )
+
+[node name="PauseLabel" type="Label" parent="CanvasLayer/Control"]
+anchor_bottom = 0.413
+margin_left = 14.0
+margin_top = 25.0
+margin_right = 74.0
+margin_bottom = -106.68
+rect_clip_content = true
+custom_fonts/font = ExtResource( 2 )
+text = "PAUSED"
+
 [node name="Scores" type="Control" parent="CanvasLayer/Control"]
 margin_left = 192.0
 margin_top = 153.0
@@ -165,8 +216,10 @@ margin_right = 319.0
 margin_bottom = 169.0
 
 [node name="Name" type="Label" parent="CanvasLayer/Control/Scores"]
+anchor_bottom = 0.413
 margin_right = 60.0
-margin_bottom = 17.0
+margin_bottom = 10.392
+rect_clip_content = true
 custom_fonts/font = ExtResource( 2 )
 text = "SCORES"
 
@@ -201,6 +254,7 @@ margin_left = 223.0
 margin_top = 216.0
 margin_right = 350.0
 margin_bottom = 232.0
+rect_scale = Vector2( 0.9, 0.9 )
 
 [node name="Name" type="Label" parent="CanvasLayer/Control/Level"]
 margin_left = 2.0
@@ -215,6 +269,10 @@ margin_right = 93.0
 margin_bottom = 17.0
 custom_fonts/font = ExtResource( 2 )
 text = "0000"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+anims/level_changed = SubResource( 9 )
+anims/scores&lines_changed = SubResource( 10 )
 
 [node name="GameBoard" type="Node2D" parent="."]
 position = Vector2( 14, 8 )
@@ -240,6 +298,7 @@ anims/sweeped3 = SubResource( 7 )
 anims/sweeped4 = SubResource( 8 )
 
 [connection signal="timeout" from="Timer" to="ActiveFigure" method="_on_Timer_timeout"]
+[connection signal="pressed" from="CanvasLayer/Control/PauseButton" to="." method="_on_PauseButton_pressed"]
 [connection signal="block_placed" from="ActiveFigure" to="." method="_on_ActiveFigure_block_placed"]
 [connection signal="blocks_sweeped" from="ActiveFigure" to="." method="_on_ActiveFigure_blocks_sweeped"]
 [connection signal="reset" from="ActiveFigure" to="." method="_on_ActiveFigure_reset"]

@@ -63,9 +63,9 @@ func print_matrix():
 		var row = ""
 		for x in range(len(matrix[y])):
 			if matrix[y][x] == null:
-				row += " |"
+				row += " `"
 			else:
-				row += "▩|"
+				row += "▩`"
 				
 		print(row)
 
@@ -82,7 +82,6 @@ func collide(entity, another_entity):
 	return false
 
 func rotate_matrix(entity, another_entity, dir):
-	var pos_in_matrix = to_matrix_pos(entity)
 	var prev_position = entity.position
 	var offset = Vector2(cell_size,cell_size)
 	rotate(dir)
