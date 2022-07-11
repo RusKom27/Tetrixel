@@ -32,7 +32,11 @@ func _input(event):
 		if event.is_action_pressed("ui_rotate_right"):
 			Matrix.rotate_matrix(self, game_board, 1)
 			draw_matrix()
-
+	if event.is_action_pressed("ui_pause"):
+		get_parent().change_pause_state()
+	if event.is_action_pressed("ui_restart"):
+		get_parent().restart()
+		
 func figure_move(dir):
 	position.x += dir
 	if Matrix.collide(self, game_board):
@@ -50,9 +54,10 @@ func drop_down():
 		game_board.draw_matrix()
 		reset()
 
-func reset():
+func reset(restart = false):
 	change_figure()
-	if Matrix.collide(self, game_board):
+	if Matrix.collide(self, game_board) or restart:
+		get_parent().update_stats()
 		emit_signal("reset")
 		change_figure()
 		change_figure()
