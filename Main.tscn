@@ -8,7 +8,7 @@
 [ext_resource path="res://Scripts/GameBoard.gd" type="Script" id=6]
 [ext_resource path="res://Sprites/foreground.png" type="Texture" id=7]
 [ext_resource path="res://Scripts/ActiveFigure.gd" type="Script" id=8]
-[ext_resource path="res://Main.gd" type="Script" id=9]
+[ext_resource path="res://Scripts/Main.gd" type="Script" id=9]
 [ext_resource path="res://Sprites/menu_buttons.png" type="Texture" id=10]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -222,6 +222,7 @@ texture_pressed = SubResource( 15 )
 texture_hover = SubResource( 16 )
 
 [node name="PauseLabel" type="Label" parent="CanvasLayer/Control"]
+modulate = Color( 1, 0.968627, 0.937255, 1 )
 anchor_bottom = 0.413
 margin_left = 14.0
 margin_top = 25.0
@@ -232,11 +233,12 @@ custom_fonts/font = ExtResource( 2 )
 text = "PAUSED"
 
 [node name="TimeAmount" type="Label" parent="CanvasLayer/Control"]
+modulate = Color( 1, 0.968627, 0.937255, 1 )
 anchor_bottom = 0.413
 margin_left = 206.0
-margin_top = 264.0
+margin_top = 265.0
 margin_right = 303.0
-margin_bottom = 132.32
+margin_bottom = 133.32
 rect_clip_content = true
 custom_fonts/font = ExtResource( 2 )
 text = "00:00:00"
@@ -249,6 +251,7 @@ margin_right = 319.0
 margin_bottom = 169.0
 
 [node name="Name" type="Label" parent="CanvasLayer/Control/Scores"]
+modulate = Color( 1, 0.968627, 0.937255, 1 )
 anchor_bottom = 0.413
 margin_right = 60.0
 margin_bottom = 10.392
@@ -257,6 +260,7 @@ custom_fonts/font = ExtResource( 2 )
 text = "SCORES"
 
 [node name="Value" type="Label" parent="CanvasLayer/Control/Scores"]
+modulate = Color( 1, 0.968627, 0.937255, 1 )
 margin_left = 63.0
 margin_right = 160.0
 margin_bottom = 17.0
@@ -271,12 +275,14 @@ margin_right = 319.0
 margin_bottom = 200.0
 
 [node name="Name" type="Label" parent="CanvasLayer/Control/Lines"]
+modulate = Color( 1, 0.968627, 0.937255, 1 )
 margin_right = 46.0
 margin_bottom = 17.0
 custom_fonts/font = ExtResource( 2 )
 text = "LINES"
 
 [node name="Value" type="Label" parent="CanvasLayer/Control/Lines"]
+modulate = Color( 1, 0.968627, 0.937255, 1 )
 margin_left = 50.0
 margin_right = 100.0
 margin_bottom = 17.0
@@ -291,13 +297,15 @@ margin_bottom = 232.0
 rect_scale = Vector2( 0.9, 0.9 )
 
 [node name="Name" type="Label" parent="CanvasLayer/Control/Level"]
-margin_left = 2.0
-margin_right = 52.0
+modulate = Color( 1, 0.968627, 0.937255, 1 )
+margin_left = 2.22223
+margin_right = 52.2222
 margin_bottom = 17.0
 custom_fonts/font = ExtResource( 2 )
 text = "LEVEL"
 
 [node name="Value" type="Label" parent="CanvasLayer/Control/Level"]
+modulate = Color( 1, 0.968627, 0.937255, 1 )
 margin_left = 53.0
 margin_right = 93.0
 margin_bottom = 17.0
@@ -331,6 +339,10 @@ anims/sweeped2 = SubResource( 6 )
 anims/sweeped3 = SubResource( 7 )
 anims/sweeped4 = SubResource( 8 )
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -9.613
+mix_target = 2
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="Timer" to="ActiveFigure" method="_on_Timer_timeout"]
 [connection signal="pressed" from="CanvasLayer/Control/MenuButton" to="." method="_on_MenuButton_pressed"]
@@ -338,4 +350,5 @@ anims/sweeped4 = SubResource( 8 )
 [connection signal="pressed" from="CanvasLayer/Control/RestartButton" to="." method="_on_RestartButton_pressed"]
 [connection signal="block_placed" from="ActiveFigure" to="." method="_on_ActiveFigure_block_placed"]
 [connection signal="blocks_sweeped" from="ActiveFigure" to="." method="_on_ActiveFigure_blocks_sweeped"]
+[connection signal="figure_moved" from="ActiveFigure" to="." method="_on_ActiveFigure_figure_moved"]
 [connection signal="reset" from="ActiveFigure" to="." method="_on_ActiveFigure_reset"]

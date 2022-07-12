@@ -8,7 +8,6 @@ var block_resource = load("res://Components/Block.tscn")
 func _ready():
 	Matrix = matrix_resource.new()
 	Matrix.create_matrix(10, 21)
-	Matrix.fill_row(4)
 	draw_matrix()
 
 func draw_matrix():

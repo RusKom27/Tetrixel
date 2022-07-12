@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/timer_tick.wav-7ab71e95b1abc67a1bf039ea7517c778.sample"
+
+[deps]
+
+source_file="res://Sounds/timer_tick.wav"
+dest_files=[ "res://.import/timer_tick.wav-7ab71e95b1abc67a1bf039ea7517c778.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

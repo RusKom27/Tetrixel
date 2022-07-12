@@ -3,6 +3,7 @@ extends Node2D
 signal block_placed
 signal blocks_sweeped
 signal reset
+signal figure_moved
 
 onready var game_board = get_parent().get_node("GameBoard")
 onready var next_figure_board = get_parent().get_node("NextFigureBoard")
@@ -44,6 +45,7 @@ func figure_move(dir):
 	
 func drop_down():
 	position.y += Matrix.cell_size
+	emit_signal("figure_moved")
 	if Matrix.collide(self, game_board):
 		position.y -= Matrix.cell_size
 		if Matrix.merge(self, game_board):

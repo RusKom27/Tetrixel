@@ -2,6 +2,9 @@ extends Node2D
 
 var particle_resource = load("res://Components/Particles.tscn")
 
+var block_place_sound = load("res://Sounds/place_sound.wav")
+var timer_tick_sound = load("res://Sounds/tick1.wav")
+
 onready var ui_scores_value = $CanvasLayer/Control/Scores/Value
 onready var ui_lines_value = $CanvasLayer/Control/Lines/Value
 onready var ui_level_value = $CanvasLayer/Control/Level/Value
@@ -28,21 +31,19 @@ func _ready():
 	$CanvasLayer/Control/PauseLabel.visible = false
 	$Timer.start()
 
+func _on_ActiveFigure_figure_moved():
+	pass
 
 func _on_ActiveFigure_block_placed():
+	$AudioStreamPlayer.stream = block_place_sound
+	$AudioStreamPlayer.play()
+	
 	$AnimationPlayer.play("block_placed")
 	
 func _on_ActiveFigure_blocks_sweeped(sweeped_rows):
 	update_stats(sweeped_rows)
-	
-	for row in sweeped_rows:
-		for x in range(len($GameBoard.Matrix.matrix[0])):
-			var cell_size = $GameBoard.Matrix.cell_size
-			var particle = particle_resource.instance()
-			particle.start_emitting()
-			particle.position = $GameBoard.position + Vector2(x*cell_size, row*cell_size)
-			add_child(particle)
 	$AnimationPlayer.play("sweeped" + str(len(sweeped_rows)))
+
 
 func _on_ActiveFigure_reset():
 	update_stats()
@@ -95,7 +96,7 @@ func _on_PauseButton_pressed():
 
 
 func _on_MenuButton_pressed():
-	pass # Replace with function body.
+	get_tree().change_scene("res://Menu.tscn")
 
 func _on_RestartButton_pressed():
 	restart()
@@ -117,4 +118,7 @@ func _on_Timer_timeout():
 	if len(hours) < 2:
 		hours = "0" + hours
 	$CanvasLayer/Control/TimeAmount.text = hours + ":" + minutes + ":" + seconds
+
+
+
 
