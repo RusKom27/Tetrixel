@@ -18,17 +18,39 @@ _global_script_classes=[ {
 "class": "Matrix",
 "language": "GDScript",
 "path": "res://Scripts/Matrix.gd"
+}, {
+"base": "Reference",
+"class": "SfxrGenerator",
+"language": "GDScript",
+"path": "res://Addons/godot_sfxr/SfxrGenerator.gd"
+}, {
+"base": "Object",
+"class": "SfxrGlobals",
+"language": "GDScript",
+"path": "res://Addons/godot_sfxr/SfxrGlobals.gd"
+}, {
+"base": "Object",
+"class": "SfxrStreamPlayerInterface",
+"language": "GDScript",
+"path": "res://Addons/godot_sfxr/SfxrStreamPlayerInterface.gd"
 } ]
 _global_script_class_icons={
 "Block": "",
-"Matrix": ""
+"Matrix": "",
+"SfxrGenerator": "",
+"SfxrGlobals": "",
+"SfxrStreamPlayerInterface": ""
 }
 
 [application]
 
 config/name="Tetris"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://Scenes/Main.tscn"
 config/icon="res://Sprites/icon.png"
+
+[autoload]
+
+Global="*res://Scripts/Global.gd"
 
 [debug]
 
@@ -47,6 +69,10 @@ window/per_pixel_transparency/enabled=true
 window/energy_saving/keep_screen_on=false
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/godot-sfxr-065bb3641b5a07efdb0ca6450d4c348ad0df3107/addons/godot_sfxr/plugin.cfg", "res://addons/godot_sfxr/plugin.cfg" )
 
 [gui]
 

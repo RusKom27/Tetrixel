@@ -1,10 +1,5 @@
 extends Node2D
 
-var particle_resource = load("res://Components/Particles.tscn")
-
-var block_place_sound = load("res://Sounds/place_sound.wav")
-var timer_tick_sound = load("res://Sounds/tick1.wav")
-
 onready var ui_scores_value = $CanvasLayer/Control/Scores/Value
 onready var ui_lines_value = $CanvasLayer/Control/Lines/Value
 onready var ui_level_value = $CanvasLayer/Control/Level/Value
@@ -14,34 +9,23 @@ var scores = 0
 var lines = 0
 var level = 0
 var old_level = 0
-var colors = [
-	Color(1, 0.683594, 0.683594),
-	Color(1, 0.868988, 0.683594),
-	Color(1, 0.980225, 0.683594),
-	Color(0.683594, 1, 0.695953),
-	Color(0.683594, 1, 0.80719),
-	Color(0.683594, 1, 0.925842),
-	Color(0.683594, 0.911011, 1),
-	Color(0.683594, 0.695953, 1),
-	Color(1, 0.683594, 0.995056)
-]
+
 var level_color = Color(1,1,1)
 
 func _ready():
 	$CanvasLayer/Control/PauseLabel.visible = false
+	$ThemeMusicAudioStream.play()
 	$Timer.start()
 
 func _on_ActiveFigure_figure_moved():
-	pass
+	$TickSoundAudioStream.play()
 
 func _on_ActiveFigure_block_placed():
-	$AudioStreamPlayer.stream = block_place_sound
-	$AudioStreamPlayer.play()
-	
 	$AnimationPlayer.play("block_placed")
 	
 func _on_ActiveFigure_blocks_sweeped(sweeped_rows):
 	update_stats(sweeped_rows)
+	$SwipeSoundAudioStream.play()
 	$AnimationPlayer.play("sweeped" + str(len(sweeped_rows)))
 
 
@@ -66,16 +50,17 @@ func update_stats(sweeped_rows = []):
 		set_ui_value(ui_level_value, str(level))
 		$CanvasLayer/AnimationPlayer.play("level_changed")
 		old_level = level
-		level_color = colors[level%len(colors)]
-		set_color_theme()
+		level_color = Global.colors[level%len(Global.colors)]
+		set_level_theme()
 	elif len(sweeped_rows) < 1:
 		level_color = Color(1,1,1)
-		set_color_theme()
+		set_level_theme()
 		set_ui_value(ui_level_value, str(level))
 		$CanvasLayer/AnimationPlayer.play("level_changed")
 		old_level = 0
 
-func set_color_theme():
+func set_level_theme():
+	$LevelChangeSoundAudioStream.play()
 	$Background.modulate = level_color
 	$Foreground.modulate = level_color
 	$CanvasLayer/Control.modulate = level_color
@@ -88,17 +73,21 @@ func set_ui_value(ui_component, value):
 
 func change_pause_state():
 	$Timer.paused = !$Timer.paused
+	$ThemeMusicAudioStream.stream_paused = $Timer.paused
 	$CanvasLayer/Control/PauseLabel.visible = $Timer.paused
 		
 
 func _on_PauseButton_pressed():
+	$ClickSoundAudioStream.play()
 	change_pause_state()
 
 
 func _on_MenuButton_pressed():
-	get_tree().change_scene("res://Menu.tscn")
+	$ClickSoundAudioStream.play()
+	get_tree().change_scene("res://Scenes/Menu.tscn")
 
 func _on_RestartButton_pressed():
+	$ClickSoundAudioStream.play()
 	restart()
 
 func restart():
@@ -106,6 +95,7 @@ func restart():
 	$ActiveFigure.reset(true)
 
 func _on_Timer_timeout():
+	Global.free_orphaned_nodes()
 	randomize()
 	seconds_amount += $Timer.wait_time
 	var seconds = str(int(int(seconds_amount)%60))

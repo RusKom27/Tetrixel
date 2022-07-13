@@ -9,13 +9,10 @@ onready var game_board = get_parent().get_node("GameBoard")
 onready var next_figure_board = get_parent().get_node("NextFigureBoard")
 onready var timer = get_parent().get_node("Timer")
 
-var matrix_resource = load("res://Scripts/Matrix.gd")
-var block_resource = load("res://Components/Block.tscn")
-
 var Matrix = null
 
 func _ready():
-	Matrix = matrix_resource.new()
+	Matrix = Global.matrix_resource.new()
 	change_figure()
 	
 
@@ -102,7 +99,7 @@ func create_figure():
 	for y in range(len(figure_type)):
 		for x in range(len(figure_type[y])):
 			if figure_type[y][x] != null:
-				var block = block_resource.instance()
+				var block = Global.block_resource.instance()
 				block.position = Vector2(x * Matrix.cell_size, y * Matrix.cell_size)
 				block.set_texture(texture_type, get_parent().level_color)
 				figure_type[y][x] = block

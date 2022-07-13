@@ -1,20 +1,22 @@
 extends Node
 
+onready var active_background = $ActiveBackground
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
+	randomize()
+	var rand_color = Global.colors[randi()%len(Global.colors)]
+	$PassiveBackground.modulate = rand_color
+	active_background.modulate = rand_color
 
 func _on_Button_pressed():
-	get_tree().change_scene("res://Main.tscn")
+	get_tree().change_scene("res://Scenes/Main.tscn")
+	
+func _process(delta):
+	move_active_background(delta)
+
+func move_active_background(delta):
+	for child in active_background.get_children():
+		child.position += Vector2(0,4*delta).normalized() - Vector2(0,0.7)
+		if child.position.y > 360:
+			child.position.y = -536
+	

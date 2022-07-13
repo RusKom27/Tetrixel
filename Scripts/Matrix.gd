@@ -37,7 +37,6 @@ func matrix_sweep():
 	
 func clear_row(row):
 	for x in range(len(matrix[row])):
-		matrix[row][x].delete()
 		matrix[row][x] = null
 
 	var rows = range(row)
@@ -50,7 +49,8 @@ func clear_row(row):
 func fill_row(row):
 	for y in range(row):
 		for x in range(len(matrix[0])):
-			var block = block_resource.instance()
+			print(Global.block_resource)
+			var block = Global.block_resource.instance()
 			block.position = Vector2(x * cell_size, y * cell_size)
 			matrix[len(matrix)-1-y][x] = block
 			
