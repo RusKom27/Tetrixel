@@ -4,7 +4,6 @@ class_name Matrix
 
 var block_resource = load("res://Components/Block.tscn")
 
-var cell_size = 16
 var width = 0
 var height = 0
 var matrix = []
@@ -49,9 +48,8 @@ func clear_row(row):
 func fill_row(row):
 	for y in range(row):
 		for x in range(len(matrix[0])):
-			print(Global.block_resource)
 			var block = Global.block_resource.instance()
-			block.position = Vector2(x * cell_size, y * cell_size)
+			block.position = Vector2(x * Global.cell_size, y * Global.cell_size)
 			matrix[len(matrix)-1-y][x] = block
 			
 func print_matrix():
@@ -70,28 +68,29 @@ func print_matrix():
 		print(row)
 
 func collide(entity, another_entity):
-	var pos_in_matrix = to_matrix_pos(entity)
+	var pos_in_matrix = to_matrix_pos(entity, another_entity)
 	var another_matrix = another_entity.Matrix.matrix
 	for y in range(len(matrix)):
 		for x in range(len(matrix[y])):
 			if matrix[y][x] != null:
-				if y + pos_in_matrix.y > len(another_matrix) or \
-					x + pos_in_matrix.x < 0 or x + pos_in_matrix.x > len(another_matrix[0]) or \
+				if y + pos_in_matrix.y >= len(another_matrix) or \
+					x + pos_in_matrix.x < 0 or \
+					x + pos_in_matrix.x >= len(another_matrix[0]) or \
 					another_matrix[y + pos_in_matrix.y][x + pos_in_matrix.x] != null:
 					return true
 	return false
 
 func rotate_matrix(entity, another_entity, dir):
 	var prev_position = entity.position
-	var offset = Vector2(cell_size,cell_size)
+	var offset = Vector2(Global.cell_size,Global.cell_size)
 	rotate(dir)
 	while(collide(entity, another_entity)):
 		entity.position.x += offset.x
 		if offset.x > 0:
-			offset.x = -(offset.x + cell_size)
+			offset.x = -(offset.x + Global.cell_size)
 		else:
-			offset.x = -(offset.x - cell_size)
-		if offset.x > len(matrix[0])*cell_size:
+			offset.x = -(offset.x - Global.cell_size)
+		if offset.x > len(matrix[0])*Global.cell_size:
 			rotate(-dir)
 			entity.position.x = prev_position.x
 			return
@@ -115,7 +114,7 @@ func rotate(dir):
 	
 func merge(entity, another_entity):
 	var block_placed = false
-	var pos_in_matrix = to_matrix_pos(entity)
+	var pos_in_matrix = to_matrix_pos(entity, another_entity)
 	var another_matrix = another_entity.Matrix.matrix
 	for y in range(len(matrix)):
 		for x in range(len(matrix[y])):
@@ -131,6 +130,6 @@ func merge(entity, another_entity):
 	return block_placed
 				
 				
-func to_matrix_pos(entity):
-	return Vector2(entity.global_position.x / cell_size, \
-		entity.global_position.y / cell_size)
+func to_matrix_pos(entity, another_entity):
+	return Vector2(entity.global_position - another_entity.global_position) / \
+					Vector2(Global.cell_size,Global.cell_size)

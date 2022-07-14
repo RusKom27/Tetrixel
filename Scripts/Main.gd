@@ -10,11 +10,10 @@ var lines = 0
 var level = 0
 var old_level = 0
 
-var level_color = Color(1,1,1)
-
 func _ready():
 	$CanvasLayer/Control/PauseLabel.visible = false
-	$ThemeMusicAudioStream.play()
+	if !Global.music_muted:
+		$ThemeMusicAudioStream.play()
 	$Timer.start()
 
 func _on_ActiveFigure_figure_moved():
@@ -50,10 +49,10 @@ func update_stats(sweeped_rows = []):
 		set_ui_value(ui_level_value, str(level))
 		$CanvasLayer/AnimationPlayer.play("level_changed")
 		old_level = level
-		level_color = Global.colors[level%len(Global.colors)]
+		Global.current_color = Global.colors[level%len(Global.colors)]
 		set_level_theme()
 	elif len(sweeped_rows) < 1:
-		level_color = Color(1,1,1)
+		Global.current_color = Color(1,1,1)
 		set_level_theme()
 		set_ui_value(ui_level_value, str(level))
 		$CanvasLayer/AnimationPlayer.play("level_changed")
@@ -61,9 +60,9 @@ func update_stats(sweeped_rows = []):
 
 func set_level_theme():
 	$LevelChangeSoundAudioStream.play()
-	$Background.modulate = level_color
-	$Foreground.modulate = level_color
-	$CanvasLayer/Control.modulate = level_color
+	$Background.modulate = Global.current_color
+	$Foreground.modulate = Global.current_color
+	$CanvasLayer/Control.modulate = Global.current_color
 	
 func set_ui_value(ui_component, value):
 	var ui_value = "" 

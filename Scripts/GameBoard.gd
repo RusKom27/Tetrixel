@@ -8,7 +8,7 @@ var block_resource = load("res://Components/Block.tscn")
 func _ready():
 	Matrix = matrix_resource.new()
 	Matrix.create_matrix(10, 21)
-	Matrix.fill_row(6)
+	Matrix.fill_row(5)
 	draw_matrix()
 
 func draw_matrix():
@@ -17,6 +17,6 @@ func draw_matrix():
 	for y in range(len(Matrix.matrix)):
 		for x in range(len(Matrix.matrix[y])):
 			if Matrix.matrix[y][x] != null:
-				Matrix.matrix[y][x].position = Vector2(x * Matrix.cell_size, y * Matrix.cell_size)
+				Matrix.matrix[y][x].position = Vector2(x * Global.cell_size, y * Global.cell_size)
 				add_child(Matrix.matrix[y][x])
 	Matrix.print_matrix()

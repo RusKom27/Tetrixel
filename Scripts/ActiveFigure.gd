@@ -19,9 +19,9 @@ func _ready():
 func _input(event):
 	if !timer.paused:
 		if event.is_action_pressed("ui_left"):
-			figure_move(-Matrix.cell_size)
+			figure_move(-Global.cell_size)
 		if event.is_action_pressed("ui_right"):
-			figure_move(Matrix.cell_size)
+			figure_move(Global.cell_size)
 		if event.is_action("ui_down"):
 			drop_down()
 		if event.is_action_pressed("ui_rotate_left"):
@@ -41,10 +41,10 @@ func figure_move(dir):
 		position.x -= dir
 	
 func drop_down():
-	position.y += Matrix.cell_size
+	position.y += Global.cell_size
 	emit_signal("figure_moved")
 	if Matrix.collide(self, game_board):
-		position.y -= Matrix.cell_size
+		position.y -= Global.cell_size
 		if Matrix.merge(self, game_board):
 			emit_signal("block_placed")
 		var sweeped_rows = game_board.Matrix.matrix_sweep()
@@ -77,7 +77,7 @@ func change_figure():
 	
 	Matrix.create_matrix(len(figure), len(figure[0]))
 	Matrix.matrix = figure
-	position = Vector2(game_board.position.x + Matrix.cell_size*4, game_board.position.y)
+	position = Vector2(game_board.position.x + Global.cell_size*4, game_board.position.y)
 	draw_matrix()
 
 func draw_matrix():
@@ -86,7 +86,7 @@ func draw_matrix():
 	for y in range(len(Matrix.matrix)):
 		for x in range(len(Matrix.matrix[y])):
 			if Matrix.matrix[y][x] != null:
-				Matrix.matrix[y][x].position = Vector2(x * Matrix.cell_size, y * Matrix.cell_size)
+				Matrix.matrix[y][x].position = Vector2(x * Global.cell_size, y * Global.cell_size)
 				add_child(Matrix.matrix[y][x])
 
 func create_figure():
@@ -100,8 +100,8 @@ func create_figure():
 		for x in range(len(figure_type[y])):
 			if figure_type[y][x] != null:
 				var block = Global.block_resource.instance()
-				block.position = Vector2(x * Matrix.cell_size, y * Matrix.cell_size)
-				block.set_texture(texture_type, get_parent().level_color)
+				block.position = Vector2(x * Global.cell_size, y * Global.cell_size)
+				block.set_texture(texture_type, Global.current_color)
 				figure_type[y][x] = block
 	return figure_type
 

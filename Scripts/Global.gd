@@ -15,11 +15,8 @@ var block_textures = [
 	load("res://Sprites/texture_type4.tres"),
 ]
 
-var seconds_amount = 0
-var scores = 0
-var lines = 0
-var level = 0
-var old_level = 0
+var cell_size = 16
+
 var colors = [
 	Color(1, 0.683594, 0.683594),
 	Color(1, 0.868988, 0.683594),
@@ -31,6 +28,10 @@ var colors = [
 	Color(0.683594, 0.695953, 1),
 	Color(1, 0.683594, 0.995056)
 ]
+
+var current_color = Color(1,1,1)
+var music_muted = true
+
 
 func free_orphaned_nodes():
 	emit_signal("freeing_orphans")

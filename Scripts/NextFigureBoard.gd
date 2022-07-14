@@ -12,11 +12,11 @@ func _ready():
 	
 	
 func draw_matrix():
-	position = initial_position + Vector2((4 - len(Matrix.matrix)) * 8, (4 - len(Matrix.matrix[0])) * 8)
+	position = initial_position + Vector2((4 - len(Matrix.matrix)) * 8, (5 - len(Matrix.matrix[0])) * 8)
 	for n in get_children():
 		remove_child(n)
 	for y in range(len(Matrix.matrix)):
 		for x in range(len(Matrix.matrix[y])):
 			if Matrix.matrix[y][x] != null:
-				Matrix.matrix[y][x].position = Vector2(x * Matrix.cell_size, y * Matrix.cell_size)
+				Matrix.matrix[y][x].position = Vector2(x * Global.cell_size, y * Global.cell_size)
 				add_child(Matrix.matrix[y][x])

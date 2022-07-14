@@ -58,8 +58,8 @@ settings/fps/force_fps=60
 
 [display]
 
-window/size/width=360
-window/size/height=360
+window/size/width=432
+window/size/height=368
 window/size/test_width=1080
 window/size/test_height=720
 window/dpi/allow_hidpi=true
@@ -72,7 +72,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/godot-sfxr-065bb3641b5a07efdb0ca6450d4c348ad0df3107/addons/godot_sfxr/plugin.cfg", "res://addons/godot_sfxr/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/godot_sfxr/plugin.cfg" )
 
 [gui]
 
@@ -150,6 +150,10 @@ ui_restart={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777220,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [physics]
 
