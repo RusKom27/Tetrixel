@@ -13,8 +13,8 @@ func copy(block):
 
 func animate_creation():
 	$AudioStreamPlayer.play()
-	
-	$CPUParticles2D.start_emitting()
+	if Global.particles:
+		$CPUParticles2D.start_emitting()
 	$AnimationPlayer.play("created")
 
 func set_texture(_type, color = Color(1,1,1,1)):

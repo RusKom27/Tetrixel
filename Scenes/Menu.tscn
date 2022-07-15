@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scripts/Menu.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/menu_background.png" type="Texture" id=2]
@@ -7,7 +7,156 @@
 [ext_resource path="res://Sprites/title.png" type="Texture" id=5]
 [ext_resource path="res://Components/Button.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Sprites/opened_foreground.png" type="Texture" id=7]
+[ext_resource path="res://Scripts/MenuComponentsControl.gd" type="Script" id=8]
 [ext_resource path="res://Theme.tres" type="Theme" id=9]
+[ext_resource path="res://Scripts/AudioControl.gd" type="Script" id=10]
+[ext_resource path="res://Sounds/theme_music.wav" type="AudioStream" id=11]
+[ext_resource path="res://Sounds/tick1.wav" type="AudioStream" id=12]
+[ext_resource path="res://Scripts/GraphicsControl.gd" type="Script" id=13]
+
+[sub_resource type="Animation" id=4]
+resource_name = "close_foreground"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("../../OpenedForeground:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../../OpenedForeground:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "exit_from_menu"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("../../Title:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 204, 51 ), Vector2( 204, 60 ), Vector2( 204, -100 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -10 ), Vector2( 0, 500 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ true ],
+"method": "exit_from_menu"
+} ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "fade_in"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "apply_state"
+} ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "fade_out"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "open_foreground"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("../../OpenedForeground:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../../OpenedForeground:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -39,67 +188,112 @@ centered = false
 [node name="Control" type="Control" parent="CanvasLayer"]
 margin_right = 360.0
 margin_bottom = 360.0
+script = ExtResource( 8 )
 
-[node name="Settings" type="Control" parent="CanvasLayer/Control"]
+[node name="SettingsButtons" type="Control" parent="CanvasLayer/Control"]
 margin_left = 123.0
-margin_top = 76.0
-margin_right = 293.0
-margin_bottom = 368.0
-
-[node name="ApplyButton" parent="CanvasLayer/Control/Settings" instance=ExtResource( 6 )]
-anchor_right = 0.0
-margin_left = 98.0
-margin_right = 189.0
-margin_bottom = 21.0
-text = "APPLY"
-
-[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/Settings"]
-anchor_top = 0.099
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 0.0919971
-margin_bottom = -45.0
-theme = ExtResource( 9 )
-scroll_horizontal_enabled = false
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Settings/ScrollContainer"]
-margin_right = 170.0
-margin_bottom = 218.0
+margin_top = 104.0
+margin_right = 292.0
+margin_bottom = 370.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MasterVolume" type="Control" parent="CanvasLayer/Control/Settings/ScrollContainer/VBoxContainer"]
-margin_right = 170.0
+[node name="AudioButton" parent="CanvasLayer/Control/SettingsButtons" instance=ExtResource( 6 )]
+margin_left = 32.0
+margin_top = 4.0
+margin_right = 139.0
+margin_bottom = 27.0
+rect_pivot_offset = Vector2( 0, 163 )
+text = "AUDIO"
+
+[node name="GraphicsButton" parent="CanvasLayer/Control/SettingsButtons" instance=ExtResource( 6 )]
+margin_left = 32.0
+margin_top = 31.0
+margin_right = 139.0
+margin_bottom = 54.0
+text = "GRAPHICS"
+
+[node name="GameplayButton" parent="CanvasLayer/Control/SettingsButtons" instance=ExtResource( 6 )]
+margin_left = 32.0
+margin_top = 59.0
+margin_right = 139.0
+margin_bottom = 82.0
+text = "GAMEPLAY"
+
+[node name="BackButton" parent="CanvasLayer/Control/SettingsButtons" instance=ExtResource( 6 )]
+margin_left = 32.0
+margin_top = 230.0
+margin_right = 139.0
+margin_bottom = 253.0
+text = "BACK"
+
+[node name="Audio" type="Control" parent="CanvasLayer/Control"]
+margin_left = 123.0
+margin_top = 106.0
+margin_right = 292.0
+margin_bottom = 369.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 10 )
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Audio"]
+anchor_right = 1.0
+margin_top = -1.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+theme = ExtResource( 9 )
+text = "AUDIO"
+align = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/Audio"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 24.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 9 )
+scroll_horizontal_enabled = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Audio/ScrollContainer"]
+margin_right = 169.0
+margin_bottom = 261.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MasterVolume" type="Control" parent="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer"]
+margin_right = 169.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 0, 40 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Settings/ScrollContainer/VBoxContainer/MasterVolume"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer/MasterVolume"]
 margin_left = 3.0
 margin_right = 49.0
 margin_bottom = 17.0
 text = "Master volume"
 
-[node name="HSlider" type="HSlider" parent="CanvasLayer/Control/Settings/ScrollContainer/VBoxContainer/MasterVolume"]
+[node name="MasterHSlider" type="HSlider" parent="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer/MasterVolume"]
 margin_left = 3.0
 margin_top = 18.0
 margin_right = 164.0
 margin_bottom = 34.0
 theme = ExtResource( 9 )
+step = 2.0
 value = 30.0
 
-[node name="MusicVolume" type="Control" parent="CanvasLayer/Control/Settings/ScrollContainer/VBoxContainer"]
+[node name="MusicVolume" type="Control" parent="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer"]
 margin_top = 44.0
-margin_right = 170.0
+margin_right = 169.0
 margin_bottom = 84.0
 rect_min_size = Vector2( 0, 40 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Settings/ScrollContainer/VBoxContainer/MusicVolume"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer/MusicVolume"]
 margin_left = 3.0
 margin_right = 49.0
 margin_bottom = 17.0
 text = "Music volume"
 
-[node name="HSlider" type="HSlider" parent="CanvasLayer/Control/Settings/ScrollContainer/VBoxContainer/MusicVolume"]
+[node name="MusicHSlider" type="HSlider" parent="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer/MusicVolume"]
 margin_left = 3.0
 margin_top = 18.0
 margin_right = 164.0
@@ -107,19 +301,19 @@ margin_bottom = 34.0
 theme = ExtResource( 9 )
 value = 30.0
 
-[node name="Effects volume" type="Control" parent="CanvasLayer/Control/Settings/ScrollContainer/VBoxContainer"]
+[node name="EffectsVolume" type="Control" parent="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer"]
 margin_top = 88.0
-margin_right = 170.0
+margin_right = 169.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 0, 40 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Settings/ScrollContainer/VBoxContainer/Effects volume"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer/EffectsVolume"]
 margin_left = 3.0
 margin_right = 49.0
 margin_bottom = 17.0
 text = "Effects volume"
 
-[node name="HSlider" type="HSlider" parent="CanvasLayer/Control/Settings/ScrollContainer/VBoxContainer/Effects volume"]
+[node name="EffectsHSlider" type="HSlider" parent="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer/EffectsVolume"]
 margin_left = 3.0
 margin_top = 18.0
 margin_right = 164.0
@@ -127,8 +321,248 @@ margin_bottom = 34.0
 theme = ExtResource( 9 )
 value = 30.0
 
+[node name="ApplyAudioButton" parent="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_top = 132.0
+margin_right = 169.0
+margin_bottom = 152.0
+text = "APPLY"
+
+[node name="TickSoundAudioStream" type="AudioStreamPlayer" parent="CanvasLayer/Control/Audio"]
+stream = ExtResource( 12 )
+volume_db = -10.485
+pitch_scale = 0.16
+bus = "Effects"
+
+[node name="Graphics" type="Control" parent="CanvasLayer/Control"]
+margin_left = 123.0
+margin_top = 106.0
+margin_right = 292.0
+margin_bottom = 369.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 13 )
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Graphics"]
+anchor_right = 1.0
+margin_top = -1.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+theme = ExtResource( 9 )
+text = "GRAPHICS"
+align = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/Graphics"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 24.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 9 )
+scroll_horizontal_enabled = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Graphics/ScrollContainer"]
+margin_right = 169.0
+margin_bottom = 261.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Particles" type="Control" parent="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer"]
+margin_right = 169.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/Particles"]
+anchor_right = 1.0
+margin_left = 22.0
+margin_top = 1.0
+margin_right = 22.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+theme = ExtResource( 9 )
+text = "Particles"
+
+[node name="ParticlesCheckBox" type="CheckBox" parent="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/Particles"]
+margin_left = 3.0
+margin_top = 1.0
+margin_right = 19.0
+margin_bottom = 18.0
+pressed = true
+
+[node name="ColorMode" type="Control" parent="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer"]
+margin_top = 44.0
+margin_right = 169.0
+margin_bottom = 84.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/ColorMode"]
+anchor_right = 1.0
+margin_left = 22.0
+margin_top = 1.0
+margin_right = 22.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+theme = ExtResource( 9 )
+text = "Color Mode"
+
+[node name="ColorModeCheckBox" type="CheckBox" parent="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/ColorMode"]
+margin_left = 3.0
+margin_top = 1.0
+margin_right = 19.0
+margin_bottom = 18.0
+pressed = true
+
+[node name="FPSLimit" type="Control" parent="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer"]
+margin_top = 88.0
+margin_right = 169.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/FPSLimit"]
+margin_left = 3.0
+margin_right = 49.0
+margin_bottom = 17.0
+text = "FPS limit"
+
+[node name="FPSLimitHSlider" type="HSlider" parent="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/FPSLimit"]
+margin_left = 3.0
+margin_top = 18.0
+margin_right = 138.0
+margin_bottom = 34.0
+theme = ExtResource( 9 )
+min_value = 24.0
+max_value = 60.0
+step = 5.0
+value = 60.0
+
+[node name="FPS" type="Label" parent="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/FPSLimit"]
+margin_left = 143.0
+margin_top = 18.0
+margin_right = 166.0
+margin_bottom = 35.0
+text = "60"
+
+[node name="ApplyGraphicsButton" parent="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_top = 132.0
+margin_right = 169.0
+margin_bottom = 152.0
+text = "APPLY"
+
+[node name="Gameplay" type="Control" parent="CanvasLayer/Control"]
+margin_left = 123.0
+margin_top = 106.0
+margin_right = 292.0
+margin_bottom = 369.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Gameplay"]
+anchor_right = 1.0
+margin_top = -1.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+theme = ExtResource( 9 )
+text = "GAMEPLAY"
+align = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/Gameplay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 24.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 9 )
+scroll_horizontal_enabled = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Gameplay/ScrollContainer"]
+margin_right = 169.0
+margin_bottom = 261.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Difficult" type="Control" parent="CanvasLayer/Control/Gameplay/ScrollContainer/VBoxContainer"]
+margin_right = 169.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Gameplay/ScrollContainer/VBoxContainer/Difficult"]
+margin_left = 3.0
+margin_right = 49.0
+margin_bottom = 17.0
+text = "Difficult"
+
+[node name="DifficultHSlider" type="HSlider" parent="CanvasLayer/Control/Gameplay/ScrollContainer/VBoxContainer/Difficult"]
+margin_left = 3.0
+margin_top = 18.0
+margin_right = 164.0
+margin_bottom = 34.0
+theme = ExtResource( 9 )
+max_value = 2.0
+value = 1.0
+
+[node name="ApplyGameplayeButton" parent="CanvasLayer/Control/Gameplay/ScrollContainer/VBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_top = 44.0
+margin_right = 169.0
+margin_bottom = 64.0
+text = "APPLY"
+
+[node name="About" type="Control" parent="CanvasLayer/Control"]
+margin_left = 123.0
+margin_top = 106.0
+margin_right = 292.0
+margin_bottom = 369.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/About"]
+anchor_right = 1.0
+margin_top = -1.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+theme = ExtResource( 9 )
+text = "ABOUT"
+align = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Control/About"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 24.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 9 )
+scroll_horizontal_enabled = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/About/ScrollContainer"]
+margin_right = 164.0
+margin_bottom = 261.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Twitter" type="Label" parent="CanvasLayer/Control/About/ScrollContainer/VBoxContainer"]
+margin_right = 164.0
+margin_bottom = 17.0
+text = "Twitter: @_ruskom_"
+
+[node name="GitHub" type="Label" parent="CanvasLayer/Control/About/ScrollContainer/VBoxContainer"]
+margin_top = 21.0
+margin_right = 164.0
+margin_bottom = 38.0
+text = "GitHub: RusKom27"
+
+[node name="BackAboutButton" parent="CanvasLayer/Control/About/ScrollContainer/VBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_top = 42.0
+margin_right = 164.0
+margin_bottom = 62.0
+text = "BACK"
+
 [node name="MenuButtons" type="Control" parent="CanvasLayer/Control"]
-visible = false
 margin_left = 172.0
 margin_top = 121.0
 margin_right = 263.0
@@ -138,19 +572,37 @@ grow_vertical = 2
 
 [node name="StartButton" parent="CanvasLayer/Control/MenuButtons" instance=ExtResource( 6 )]
 anchor_right = 0.0
-margin_right = 91.0
+margin_left = -10.0
+margin_right = 100.0
 margin_bottom = 21.0
 text = "START"
 
 [node name="SettingsButton" parent="CanvasLayer/Control/MenuButtons" instance=ExtResource( 6 )]
 anchor_right = 0.0
 margin_left = -10.0
-margin_top = 23.0
+margin_top = 33.0
 margin_right = 100.0
-margin_bottom = 44.0
+margin_bottom = 54.0
 text = "SETTINGS"
 
+[node name="AboutButton" parent="CanvasLayer/Control/MenuButtons" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_left = -10.0
+margin_top = 65.0
+margin_right = 100.0
+margin_bottom = 86.0
+text = "ABOUT"
+
+[node name="ExitButton" parent="CanvasLayer/Control/MenuButtons" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_left = -10.0
+margin_top = 213.0
+margin_right = 100.0
+margin_bottom = 234.0
+text = "EXIT"
+
 [node name="Foreground" type="Sprite" parent="."]
+visible = false
 position = Vector2( -28, -56 )
 texture = ExtResource( 3 )
 centered = false
@@ -164,6 +616,40 @@ centered = false
 position = Vector2( 204, 51 )
 texture = ExtResource( 5 )
 
-[connection signal="pressed" from="CanvasLayer/Control/Settings/ApplyButton" to="." method="_on_StartButton_pressed"]
-[connection signal="pressed" from="CanvasLayer/Control/MenuButtons/StartButton" to="." method="_on_StartButton_pressed"]
-[connection signal="pressed" from="CanvasLayer/Control/MenuButtons/SettingsButton" to="." method="_on_SettingsButton_pressed"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../CanvasLayer/Control")
+anims/close_foreground = SubResource( 4 )
+anims/exit_from_menu = SubResource( 3 )
+anims/fade_in = SubResource( 1 )
+anims/fade_out = SubResource( 2 )
+anims/open_foreground = SubResource( 5 )
+
+[node name="ThemeMusicAudioStream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+volume_db = -3.496
+mix_target = 2
+bus = "Music"
+
+[connection signal="pressed" from="CanvasLayer/Control/SettingsButtons/AudioButton" to="CanvasLayer/Control" method="_on_AudioButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/SettingsButtons/GraphicsButton" to="CanvasLayer/Control" method="_on_GraphicsButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/SettingsButtons/GameplayButton" to="CanvasLayer/Control" method="_on_GameplayButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/SettingsButtons/BackButton" to="CanvasLayer/Control" method="_on_BackButton_pressed"]
+[connection signal="draw" from="CanvasLayer/Control/Audio" to="CanvasLayer/Control/Audio" method="_on_Audio_draw"]
+[connection signal="value_changed" from="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer/MasterVolume/MasterHSlider" to="CanvasLayer/Control/Audio" method="_on_MasterHSlider_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer/MusicVolume/MusicHSlider" to="CanvasLayer/Control/Audio" method="_on_MusicHSlider_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer/EffectsVolume/EffectsHSlider" to="CanvasLayer/Control/Audio" method="_on_EffectsHSlider_value_changed"]
+[connection signal="pressed" from="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer/ApplyAudioButton" to="." method="_on_ApplyAudioButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Audio/ScrollContainer/VBoxContainer/ApplyAudioButton" to="CanvasLayer/Control" method="_on_ApplyAudioButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/Particles/ParticlesCheckBox" to="CanvasLayer/Control/Graphics" method="_on_ParticlesCheckBox_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/ColorMode/ColorModeCheckBox" to="CanvasLayer/Control/Graphics" method="_on_ColorModeCheckBox_pressed"]
+[connection signal="value_changed" from="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/FPSLimit/FPSLimitHSlider" to="CanvasLayer/Control/Graphics" method="_on_FPSLimitHSlider_value_changed"]
+[connection signal="pressed" from="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/ApplyGraphicsButton" to="." method="_on_ApplyGraphicsButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Graphics/ScrollContainer/VBoxContainer/ApplyGraphicsButton" to="CanvasLayer/Control" method="_on_ApplyGraphicsButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Gameplay/ScrollContainer/VBoxContainer/ApplyGameplayeButton" to="." method="_on_ApplyGameplayeButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Gameplay/ScrollContainer/VBoxContainer/ApplyGameplayeButton" to="CanvasLayer/Control" method="_on_ApplyGameplayeButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/About/ScrollContainer/VBoxContainer/BackAboutButton" to="CanvasLayer/Control" method="_on_BackAboutButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/MenuButtons/StartButton" to="CanvasLayer/Control" method="_on_StartButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/MenuButtons/SettingsButton" to="CanvasLayer/Control" method="_on_SettingsButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/MenuButtons/AboutButton" to="CanvasLayer/Control" method="_on_AboutButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/MenuButtons/ExitButton" to="CanvasLayer/Control" method="_on_ExitButton_pressed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="CanvasLayer/Control" method="_on_AnimationPlayer_animation_finished"]

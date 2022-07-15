@@ -4,12 +4,23 @@ onready var active_background = $ActiveBackground
 
 func _ready():
 	randomize()
-	Global.current_color = Global.colors[randi()%len(Global.colors)]
+	$ThemeMusicAudioStream.play()
+	$CanvasLayer/Control.animation_player = $AnimationPlayer
+	$CanvasLayer/Control.foreground = $Foreground
+	$CanvasLayer/Control.opened_foreground = $OpenedForeground
+	$AnimationPlayer.play("fade_in")
+	update_colors()
+	Global.update_volume()
+
+func update_colors():
+	if Global.color_mode:
+		Global.current_color = Global.colors[randi()%len(Global.colors)]
+	else:
+		Global.current_color = Color(1,1,1)
 	$PassiveBackground.modulate = Global.current_color
 	$Title.modulate = Global.current_color
 	active_background.modulate = Global.current_color
 
-	
 func _process(delta):
 	move_active_background(delta)
 
@@ -19,10 +30,11 @@ func move_active_background(delta):
 		if child.position.y > 360:
 			child.position.y = -536
 
-func _on_StartButton_pressed():
-	Global.current_color = Color(1,1,1)
-	get_tree().change_scene("res://Scenes/Main.tscn")
+func _on_ApplyGameplayeButton_pressed():
+	Global.save_settings()
 
+func _on_ApplyGraphicsButton_pressed():
+	Global.save_settings()
 
-func _on_SettingsButton_pressed():
-	pass # Replace with function body.
+func _on_ApplyAudioButton_pressed():
+	Global.save_settings()

@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Sprites/button.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/button_shadow.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/UIFont.tres" type="DynamicFont" id=3]
-[ext_resource path="res://Components/ButtonControl.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/ButtonControl.gd" type="Script" id=4]
+[ext_resource path="res://Sounds/click.tres" type="AudioStream" id=5]
 
 [sub_resource type="Animation" id=20]
 resource_name = "hover"
@@ -139,6 +140,12 @@ custom_colors/font_color = Color( 0.203922, 0.211765, 0.337255, 1 )
 custom_fonts/font = ExtResource( 3 )
 align = 1
 valign = 1
+
+[node name="ClickSoundAudioStream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -20.099
+pitch_scale = 0.33
+bus = "Effects"
 
 [connection signal="button_down" from="." to="." method="_on_Button_button_down"]
 [connection signal="button_up" from="." to="." method="_on_Button_button_up"]

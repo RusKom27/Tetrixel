@@ -12,9 +12,9 @@ var old_level = 0
 
 func _ready():
 	$CanvasLayer/Control/PauseLabel.visible = false
-	if !Global.music_muted:
-		$ThemeMusicAudioStream.play()
+	$ThemeMusicAudioStream.play()
 	$Timer.start()
+	Global.update_volume()
 
 func _on_ActiveFigure_figure_moved():
 	$TickSoundAudioStream.play()
@@ -40,7 +40,7 @@ func update_stats(sweeped_rows = []):
 	else:
 		scores += int(pow(4, len(sweeped_rows)) + 50)
 		lines += int(len(sweeped_rows))
-		level = int(scores/300)
+		level = int(scores/100)
 	
 	set_ui_value(ui_scores_value, str(scores))
 	set_ui_value(ui_lines_value, str(lines))
@@ -49,7 +49,8 @@ func update_stats(sweeped_rows = []):
 		set_ui_value(ui_level_value, str(level))
 		$CanvasLayer/AnimationPlayer.play("level_changed")
 		old_level = level
-		Global.current_color = Global.colors[level%len(Global.colors)]
+		if Global.color_mode:
+			Global.current_color = Global.colors[level%len(Global.colors)]
 		set_level_theme()
 	elif len(sweeped_rows) < 1:
 		Global.current_color = Color(1,1,1)
@@ -77,16 +78,13 @@ func change_pause_state():
 		
 
 func _on_PauseButton_pressed():
-	$ClickSoundAudioStream.play()
 	change_pause_state()
 
 
 func _on_MenuButton_pressed():
-	$ClickSoundAudioStream.play()
 	get_tree().change_scene("res://Scenes/Menu.tscn")
 
 func _on_RestartButton_pressed():
-	$ClickSoundAudioStream.play()
 	restart()
 
 func restart():

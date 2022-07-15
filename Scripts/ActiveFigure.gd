@@ -101,7 +101,10 @@ func create_figure():
 			if figure_type[y][x] != null:
 				var block = Global.block_resource.instance()
 				block.position = Vector2(x * Global.cell_size, y * Global.cell_size)
-				block.set_texture(texture_type, Global.current_color)
+				if Global.color_mode:
+					block.set_texture(texture_type, Global.current_color)
+				else:
+					block.set_texture(texture_type)
 				figure_type[y][x] = block
 	return figure_type
 
